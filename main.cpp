@@ -50,6 +50,7 @@ std::string SHA1(std::string message)
         }
     }
 
+
     // Initial hash values (H0, H1, H2, H3, H4) for SHA-1
 
     const unsigned int H0_initial = 0x67452301;
@@ -57,6 +58,7 @@ std::string SHA1(std::string message)
     const unsigned int H2_initial = 0x98BADCFE;
     const unsigned int H3_initial = 0x10325476;
     const unsigned int H4_initial = 0xC3D2E1F0;
+
 
     // Constants (K) for each round of SHA-1
 
@@ -68,6 +70,41 @@ std::string SHA1(std::string message)
         else if (20 <= i && i <= 39) K[i] = 0x6ED9EBA1;
         else if (40 <= i && i <= 59) K[i] = 0x8F1BBCDC;
         else if (60 <= i && i <= 79) K[i] = 0xCA62C1D6;
+    }
+
+
+    // Calculating the length of message in bits using long long type to accommodate the 64-bit length of the message
+
+    long long messageLength = messageBits.size();
+
+    // Variable is used to ensure that only the first bit in the padding is set to '1', and subsequent bits are set to '0'
+   
+    bool appendOne = true;
+
+    // Padding the Message to Achieve 448 Bits : 
+
+    while (messageBits.size() % 512 != 448) 
+    {
+        if (appendOne) 
+        {
+            messageBits.push_back(true);
+            appendOne = false;
+        }
+        else 
+        {
+            messageBits.push_back(false);
+        }
+    }
+
+
+    // Appending the Original Message Length : 
+
+    for (int i = 63; i >= 0; --i) 
+    {
+
+        // By appending LL to the literal 1, it specifies that the literal should be treated as a long long.
+
+        messageBits.push_back((messageLength & (1LL << i)) != 0);
     }
 }
 
