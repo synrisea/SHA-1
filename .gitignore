@@ -1,0 +1,10 @@
+
+*.json
+*.sqlite
+*.ipch
+*.opendb
+*.db-wal
+*.db
+*.db-shm
+*.vsidx
+.vs/SHA-1/v17/.wsuo
